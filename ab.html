@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SHA-256 Hash Example</title>
+</head>
+<body>
+  <h2>Check SHA-256 Hash in Console</h2>
+
+  <script>
+    // SHA-256 hashing function
+    async function sha256(message) {
+      const msgBuffer = new TextEncoder().encode(message);
+      const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+    }
+
+    // Run the hash for "forever"
+    (async () => {
+      const text = "forever"; // change this if you want other words
+      const hash = await sha256(text);
+      console.log(`"${text}" → ${hash}`);
+      alert(`"${text}" → ${hash}`); // optional alert to see directly
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1a1f3a"/>
+      <stop offset="1" stop-color="#111428"/>
+    </linearGradient>
+    <linearGradient id="acc" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7c5cff"/>
+      <stop offset="1" stop-color="#ff7ab6"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <rect x="30" y="30" width="740" height="440" rx="18" fill="#0f1221" stroke="#2b3158"/>
+  <rect x="30" y="30" width="740" height="70" rx="18" fill="#14182b"/>
+  <circle cx="70" cy="65" r="8" fill="#e15c64"/>
+  <circle cx="95" cy="65" r="8" fill="#e8bb46"/>
+  <circle cx="120" cy="65" r="8" fill="#46d991"/>
+  <rect x="60" y="120" width="380" height="70" rx="14" fill="#141b34" stroke="#2b3158"/>
+  <text x="80" y="165" font-family="Inter, Arial" font-size="18" fill="#cfd1e6">First chat started... "Hi"</text>
+  <rect x="360" y="210" width="320" height="70" rx="14" fill="#1e2342" stroke="#2b3158"/>
+  <text x="380" y="255" font-family="Inter, Arial" font-size="18" fill="#dfe1f4">Reply... "Hello!"</text>
+  <rect x="60" y="300" width="260" height="70" rx="14" fill="#141b34" stroke="#2b3158"/>
+  <text x="80" y="345" font-family="Inter, Arial" font-size="18" fill="#cfd1e6">"Nice to meet you"</text>
+  <text x="400" y="420" text-anchor="middle" font-family="Inter, Arial" font-size="14" fill="#b7bad0" opacity=".8">Placeholder for our first chat screenshot</text>
+  <rect x="260" y="420" width="280" height="6" rx="3" fill="url(#acc)" opacity=".6"/>
+</svg>
+

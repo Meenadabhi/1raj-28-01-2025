@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Across The Ocean</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+
+    <style>
+        #imageModal img {
+            transition: transform 0.3s ease;
+        }
+
+        #imageModal img:hover {
+            transform: scale(1.05);
+        }
+
+        .anniversary {
+            font-size: 28px;
+            /* bigger text */
+            font-weight: bold;
+            color: #ff006e;
+            /* bright pink */
+            text-shadow:
+                0 0 5px #ff4da6,
+                0 0 10px #ff4da6,
+                0 0 20px #ff1a75,
+                0 0 40px #ff1a75;
+            /* glowing effect */
+        }
+
+        /* Additional styles for the 3D carousel */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            perspective: 1000px;
+            overflow: hidden;
+        }
+
+        .carousel {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            animation: rotate 30s infinite linear;
+        }
+
+        .carousel-item {
+            position: absolute;
+            width: 300px;
+            height: 400px;
+            top: 50%;
+            left: 50%;
+            margin-left: -150px;
+            margin-top: -200px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .carousel-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.3);
+            pointer-events: none;
+        }
+
+        .carousel-overlay h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .carousel-overlay p {
+            font-size: 1.5rem;
+            max-width: 600px;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+            margin-bottom: 0.5rem;
+        }
+
+        .splash-actions {
+            pointer-events: all;
+            margin-top: 2rem;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotateY(0);
+            }
+
+            to {
+                transform: rotateY(360deg);
+            }
+        }
+
+        /* Pause animation on hover */
+        .carousel-container:hover .carousel {
+            animation-play-state: paused;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .carousel-overlay h1 {
+                font-size: 2.5rem;
+            }
+
+            .carousel-overlay p {
+                font-size: 1.2rem;
+                padding: 0 1rem;
+            }
+
+            .carousel-item {
+                width: 200px;
+                height: 300px;
+                margin-left: -100px;
+                margin-top: -150px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="splash" class="splash">
+        <!-- 3D Carousel Container -->
+        <div class="carousel-container">
+            <div class="carousel" id="imageCarousel">
+            </div>
+            <!-- Text Overlay -->
+            <div class="carousel-overlay">
+                <h1 class="brand"><i class="fa-solid fa-heart"></i> Across The Ocean</h1>
+                <p class="anniversary">Happy 6 Months Engagement Anniversary</p>
+                <p class="tagline">Because every second apart becomes a story we keep.</p>
+                <div class="splash-actions">
+                    <button id="enterBtn" class="btn primary"><i class="fa-solid fa-arrow-right"></i> Enter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="floating" id="floatingLayer"></div>
+
+    <header class="site-header">
+        <div class="container header-row">
+            <div class="logo">
+                <i class="fa-solid fa-heart"></i>
+                <span>Across The Ocean</span>
+            </div>
+            <nav class="nav">
+                <button class="nav-btn active" data-page="home"><i
+                        class="fa-solid fa-house"></i><span>Home</span></button>
+                <button class="nav-btn" data-page="gallery"><i
+                        class="fa-solid fa-images"></i><span>Gallery</span></button>
+                <!-- <button class="nav-btn" data-page="memories"><i
+                        class="fa-solid fa-heart"></i><span>Memories</span></button> -->
+                <button class="nav-btn" data-page="countdown"><i
+                        class="fa-solid fa-calendar"></i><span>Countdown</span></button>
+                <button class="nav-btn" data-page="private"><i
+                        class="fa-solid fa-lock"></i><span>Private</span></button>
+                <button class="nav-btn" data-page="family"><i
+                        class="fa-solid fa-people-group"></i><span>Family</span></button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h2 class="hero-title">Every mile apart, closer at heart</h2>
+        </section>
+
+
+        <!-- Image Modal -->
+        <div id="imageModal"
+            class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm hidden items-center justify-center z-50">
+            <span class="absolute top-5 right-8 text-white text-3xl cursor-pointer" id="closeModal">&times;</span>
+            <img id="modalImage" class="max-w-3xl max-h-[80vh] rounded-lg shadow-lg" src="" alt="">
+        </div>
+
+
+        <section id="home" class="page active">
+            <article class="card">
+                <h3 class="card-title">A note for you</h3>
+                <p class="card-text">You walked into my life like a miracle ✨, turning ordinary moments into
+                    extraordinary memories 💫. You are not just my love ❤️, you are my divine blessing 🌹, my god-gifted
+                    soulmate 💍, and my forever 💕.</p>
+            </article>
+
+            <div class="grid gallery">
+                <figure class="tile">
+                    <img src="/assets/images/public/raj2.jpeg" alt="My Everything">
+                    <figcaption>
+                        <h4>My Everything</h4>
+                        <p>I miss you more with every sunrise</p>
+                    </figcaption>
+                </figure>
+                <figure class="tile">
+                    <img src="/assets/images/public/raj3.jpeg" alt="My Dream">
+                    <figcaption>
+                        <h4>Together, Always</h4>
+                        <p>Distance means nothing when love means everything</p>
+                    </figcaption>
+                </figure>
+                <figure class="tile">
+                    <img src="/assets/images/public/r.jpeg" alt="My Future">
+                    <figcaption>
+                        <h4>My Future</h4>
+                        <p>Counting the days</p>
+                    </figcaption>
+                </figure>
+                <figure class="tile">
+                    <img src="/assets/images/public/raaar.jpeg" alt="Warm Light">
+                    <figcaption>
+                        <h4>My Missing Piece</h4>
+                        <p>With you, every moment feels complete</p>
+                    </figcaption>
+                </figure>
+                <figure class="tile">
+                    <img src="/assets/images/public/raj7.jpeg" alt="Shared Sky">
+                    <figcaption>
+                        <h4>Two Souls, One Journey</h4>
+                        <p>No matter the distance, my heart always finds you</p>
+                    </figcaption>
+                </figure>
+                <figure class="tile">
+                    <img src="/assets/images/public/raj9.jpeg" alt="Little Moments">
+                    <figcaption>
+                        <h4>Forever My Person</h4>
+                        <p>Wherever life takes me, my home is always with you.</p>
+                    </figcaption>
+                </figure>
+            </div>
+
+            <article
+                class="card promises bg-white rounded-2xl shadow-xl p-6 max-w-2xl mx-auto border border-opacity-20 border-gray-300">
+                <h3
+                    class="card-title text-3xl font-bold text-center mb-6 text-purple-800 font-['Poppins'] tracking-wide">
+                    Our Journey in God's Grace ✨</h3>
+                <ul class="promises-list space-y-4 font-['Roboto']">
+                    <li class="text-lg text-gray-700 leading-relaxed font-medium flex items-start">
+                        <span class="text-purple-500 mr-2">💖</span>
+                        May God bless our love and guide us toward a future full of joy, peace, and endless togetherness
+                    </li>
+                    <li class="text-lg text-gray-700 leading-relaxed font-medium flex items-start">
+                        <span class="text-purple-500 mr-2">🙏</span>
+                        I pray that every step we take together is protected, and our hearts always remain united in
+                        love
+                    </li>
+                    <li class="text-lg text-gray-700 leading-relaxed font-medium flex items-start">
+                        <span class="text-purple-500 mr-2">🚀</span>
+                        May our journey ahead be filled with God's light, happiness, and countless beautiful moments
+                    </li>
+                    <li class="text-lg text-gray-700 leading-relaxed font-medium flex items-start">
+                        <span class="text-purple-500 mr-2">🙏</span>
+                        I ask God to keep our bond strong, our dreams alive, and our love growing with each passing day
+                    </li>
+                    <li class="text-lg text-gray-700 leading-relaxed font-medium flex items-start">
+                        <span class="text-purple-500 mr-2">🌈</span>
+                        May the Almighty bless our future, filling it with laughter, harmony, and everlasting love
+                    </li>
+                    <li class="text-lg text-gray-700 leading-relaxed font-medium flex items-start">
+                        <span class="text-purple-500 mr-2">🙏</span>
+                        I pray that no matter what challenges come, God always keeps us close and strengthens our hearts
+                        together
+                    </li>
+                </ul>
+            </article>
+
+
+
+        </section>
+
+
+        <!-- end HOME SECTION----------------------------------------------------- -->
+
+
+
+        <section id="gallery" class="page">
+            <h3 class="section-title">Our Golden Memories</h3>
+            <div class="grid gallery">
+                <figure class="tile"><img src="/assets/images/gallery/grandpa.jpeg" alt="First Conversation">
+                    <figcaption>
+                        <h4>Forever in Our Hearts</h4>
+                        <p>You left us beautiful memories, your love still unites our family</p>
+                    </figcaption>
+                </figure>
+                <figure class="tile"><img src="/assets/images/gallery/e2.jpeg" alt="Celebration">
+                    <figcaption>
+                        <h4>A Precious Memory</h4>
+                        <p>A promise of love sealed with endless joy.</p>
+                    </figcaption>
+                </figure>
+                <figure class="tile"><img src="/assets/images/gallery/nc.jpeg" alt="Moments Together">
+                    <figcaption>
+                        <h4>Made for Each Other</h4>
+                        <p>A beautiful promise of love and togetherness.</p>
+                    </figcaption>
+                </figure>
+                <figure class="tile"><img src="/assets/images/gallery/4tri.jpeg" alt="Virtual Dinner">
+                    <figcaption>
+                        <h4>Togetherness Missed</h4>
+                        <p>Our family moments are not the same without you both.</p>
+                    </figcaption>
+
+                </figure>
+                <figure class="tile"><img src="/assets/images/gallery/3t.jpeg" alt="Shared Sunsets">
+                    <figcaption>
+                        <h4>Always in Our Hearts</h4>
+                        <p>The whole family misses your presence and joy every day.</p>
+                    </figcaption>
+                </figure>
+                <figure class="tile"><img src="/assets/images/gallery/vn.jpeg" alt="Future Adventures">
+                    <figcaption>
+                        <h4>Family’s Joy</h4>
+                        <p>The family misses your smiles, love, and laughter every day.</p>
+                    </figcaption>
+
+                </figure>
+            </div>
+            <div class="media" style="margin-top:14px">
+                <!-- video here -->
+                <!-- <video controls
+                    poster="https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&w=1200&q=80">
+                    <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+                        type="video/mp4">
+                </video> -->
+            </div>
+        </section>
+
+        <!-- <section id="memories" class="page">
+            <h3 class="section-title">Our Journey Together</h3>
+            <article class="card">
+                <p class="card-text">I've saved every message, photo, and memory. They carry me through the distance and
+                    make me smile on hard days.</p>
+            </article>
+            <div class="chat">
+                <div class="msg left">
+                    <div class="bubble">Hey… is this really you? 🙂</div>
+                    <span class="time">Apr 12, 2022 • 9:12 PM</span>
+                </div>
+                <div class="msg right">
+                    <div class="bubble">Yes! Finally connected. I’m so happy 🎉</div>
+                    <span class="time">Apr 12, 2022 • 9:13 PM</span>
+                </div>
+                <div class="msg left">
+                    <div class="bubble">Same here. How was your day?</div>
+                    <span class="time">Apr 12, 2022 • 9:14 PM</span>
+                </div>
+                <div class="msg right">
+                    <div class="bubble">Better now that I’m talking to you 💜</div>
+                    <span class="time">Apr 12, 2022 • 9:15 PM</span>
+                </div>
+            </div>
+            <article class="card" id="first-video-call">
+                <h3 class="card-title">First Video Call</h3>
+                <p class="card-text">We were both a little shy, but that smile felt like home.</p>
+                <div class="media" style="margin-top:10px">
+                    <video controls
+                        poster="https://images.unsplash.com/photo-1585202900225-6d3ac20a6962?auto=format&fit=crop&w=1200&q=80">
+                        <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+                            type="video/mp4">
+                    </video>
+                </div>
+            </article>
+            <div class="grid gallery">
+                <figure class="tile"><img
+                        src="https://images.unsplash.com/photo-1578932750355-5eb30e202c5f?auto=format&fit=crop&w=600&q=80"
+                        alt="First Message">
+                    <figcaption>
+                        <h4>First Message</h4>
+                        <p>The story begins</p>
+                    </figcaption>
+                </figure>
+                <figure class="tile"><img
+                        src="https://images.unsplash.com/photo-1585202900225-6d3ac20a6962?auto=format&fit=crop&w=600&q=80"
+                        alt="First Video Call">
+                    <figcaption>
+                        <h4>First Video Call</h4>
+                        <p>Nervous but excited</p>
+                    </figcaption>
+                </figure>
+                <figure class="tile"><img
+                        src="https://images.unsplash.com/photo-1542654074-9b8c4d6be8d2?auto=format&fit=crop&w=600&q=80"
+                        alt="First Virtual Date">
+                    <figcaption>
+                        <h4>First Virtual Date</h4>
+                        <p>Dressed up for you</p>
+                    </figcaption>
+                </figure>
+            </div>
+            <button class="btn subtle" id="timelineBtn"><i class="fa-solid fa-clock"></i> Show our timeline</button>
+            <div id="timeline" class="timeline" hidden>
+                <div class="card">
+                    <p class="card-text"><strong>Our Timeline</strong><br> • First Message — Apr 12, 2022<br> • First
+                        Video Call — May 3, 2022<br> • First Virtual Date — Jun 18, 2022<br> • The Proposal — Sep 5,
+                        2022<br> • 6 Month Anniversary — Mar 5, 2023</p>
+                </div>
+            </div>
+        </section> -->
+
+        <section id="countdown" class="page">
+            <div class="countdown card">
+                <h3 class="section-title">Countdown Until We're Together</h3>
+                <div class="timer">
+                    <div class="t">
+                        <div id="days">0</div><span>Days</span>
+                    </div>
+                    <div class="t">
+                        <div id="hours">0</div><span>Hours</span>
+                    </div>
+                    <div class="t">
+                        <div id="minutes">0</div><span>Minutes</span>
+                    </div>
+                    <div class="t">
+                        <div id="seconds">0</div><span>Seconds</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+
+
+
+
+        <!-------------------------------- private section    ----------------------------------------------------------------------------------------- -->
+        <section id="private" class="page">
+            <div class="card">
+                <h3 class="section-title"><i class="fa-solid fa-lock"></i> Private Area</h3>
+                <p class="muted">Protected with a shared password. Content is split into Private and Personal.</p>
+                <div id="gate" class="gate">
+                    <input id="pwd" type="password" class="input" placeholder="Enter password">
+                    <button id="unlockBtn" class="btn primary">Unlock</button>
+                </div>
+                <div id="privateArea" class="hidden">
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="tab-photos"><i class="fa-regular fa-image"></i> Private
+                            Photos</button>
+                        <button class="tab-btn" data-tab="tab-videos"><i class="fa-regular fa-circle-play"></i> Private
+                            Videos</button>
+                        <button class="tab-btn" data-tab="tab-personal"><i class="fa-regular fa-user"></i>
+                            Personal</button>
+                    </div>
+                    <div id="tab-photos" class="tab-content active">
+                        <div class="grid gallery">
+                            <figure class="tile"><img src="assets/images/private/placeholder.svg" alt="Private">
+                                <figcaption>
+                                    <h4>Private Shot</h4>
+                                    <p>Replace with your image</p>
+                                </figcaption>
+                            </figure>
+                            <figure class="tile"><img src="assets/images/private/placeholder.svg" alt="Private">
+                                <figcaption>
+                                    <h4>Another Memory</h4>
+                                    <p>Replace with your image</p>
+                                </figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                    <div id="tab-videos" class="tab-content">
+                        <div class="media">
+                            <video controls poster="assets/images/private/placeholder.svg">
+                                <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+                                    type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                    <div id="tab-personal" class="tab-content">
+                        <article class="card">
+                            <p class="card-text">Personal notes go here. You can customize text, add lists, or embed
+                                more media.</p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- END private section    ----------------------------------------------------------------------------------------- -->
+
+        <!-- FAMILY SECTION START -->
+
+        <section id="family" class="page page-family">
+            <h3 class="section-title">We All Miss You</h3>
+            <div class="grid gallery">
+                <!-- First Row -->
+                <figure class="tile">
+                    <img src="/assets/images/public/nainam.jpeg" alt="Sister">
+                    <figcaption>
+                        <h4>Sister-in-law</h4>
+                        <p>Come back soon!</p>
+                        <p>Thank you for always supporting me 🙏. You are truly my big sister 💖, and though I have five
+                            sisters now, you are the best of them all 🌟. We miss you so much 😢! Mother-in-law always
+                            talks about you whenever I meet her — she misses you dearly 🥰. Please come soon and
+                            complete our family 🏡; your presence will bring happiness and warmth back into our home
+                            ✨❤️. from - Meow</p>
+                    </figcaption>
+                </figure>
+                <figure class="tile">
+                    <img src="/assets/images/public/bhaiB.jpeg" alt="brother">
+                    <figcaption>
+                        <h4>Elder brother</h4>
+                        <p>The house feels empty</p>
+                        <p>Thank you for always being such a caring and supportive brother to all of us 🤗. As the
+                            eldest son 👑, you have fulfilled your responsibilities with so much love ❤️ and dedication
+                            💪. Dad and Mom 👨‍👩‍👦 always talk about you and miss you more and more each day 😢.
+                            Please come soon — your presence completes our family 🏡 and brings happiness 🌟 and warmth
+                            ✨ to everyone at home. From - Meena</p>
+                    </figcaption>
+                </figure>
+                <figure class="tile">
+                    <img src="/assets/images/public/c.jpeg" alt="chhote">
+                    <figcaption>
+                        <h4>Chandresh</h4>
+                        <p>Protect, Push, Inspire</p>
+                        <p>My biggest thanks to both of you for always being the most supportive brothers 🤗. No matter
+                            what I do, you are always there with me 💪. You push me when I fail 😔➡️😊, guide me when
+                            I’m lost 🧭. I am the luckiest to have brothers like you — true pillars of strength 💪, love
+                            , and encouragement 🌟. I miss you both 😢 and can’t wait to be together again 🏡.
+                            From-chhote</p>
+                    </figcaption>
+                </figure>
+
+                <!-- Second Row -->
+                <figure class="tile">
+                    <img src="/assets/images/public/papa.jpeg" alt="father">
+                    <figcaption>
+                        <h4>Father</h4>
+                        <p>My Precious Boy</p>
+                        <p>We all miss you so much, my dear Vano and Ashvin 😢. I haven’t seen you for the last 4
+                            years 🕰️. Ashvin, our beloved elder son 🌟, your guidance, love , and presence are deeply
+                            missed . Please come as soon as possible 🏡✨ and complete our home 🏠.</p<p>Missed .
+                            Please come as soon as possible 🏡✨ and complete our home 🏠.</p>
+                    </figcaption>
+                </figure>
+                <figure class="tile">
+                    <img src="/assets//images/public/mummy.jpeg" alt="Cousin">
+                    <figcaption>
+                        <h4>Mother</h4>
+                        <p>I miss you so much. 💖</p>
+                        <p>Naina, my dear daughter-in-law , I miss you so much and your presence always brings warmth
+                            to our home 🌸. Vano and Ashvin, my beloved sons 🌟, every day without you feels incomplete
+                            😢. I long to see your smiles 😊, hear your laughter , and feel the joy you bring to our
+                            family 💖. Please come soon and make our home whole again — your presence is the light of my
+                            heart ✨.</p>
+
+                    </figcaption>
+                </figure>
+                <figure class="tile">
+                    <img src="/assets/images/public/ba.jpeg" alt="Friend">
+                    <figcaption>
+                        <h4>Grandmother</h4>
+                        <p>Can’t wait to see you again💕</p>
+                        <p>Since your grandfather passed away , I have missed you all so much 😢. He used to remember
+                            you both — my sons 🌟 — every day. Naina, my dear daughter-in-law 💕, I miss you too. I feel
+                            so lonely without your love and presence 🏡✨. Please come back soon and fill our home with
+                            happiness 😍 and warmth again.</p>
+                    </figcaption>
+                </figure>
+            </div>
+
+            <div class="card" style="margin-top:14px">
+                <p class="card-text">We recorded this for you—because we miss you every single day.</p>
+            </div>
+            <div class="media" style="margin-top:12px; display:flex; flex-direction:column; align-items:center;">
+                <div style="max-width:600px; width:100%;">
+                    <video controls style="width:100%; border-radius:0.5rem;"
+                        poster="https://images.unsplash.com/photo-1576021182215-4c6b3b6b5c2f?auto=format&fit=crop&w=1200&q=80">
+                        <source src="./assets/videos/public/family.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+
+                </div>
+
+                <div style="margin-top:20px; text-align:center; max-width:600px;">
+                    <h2>💖 Thank You 💖</h2>
+                    <p style="font-size:1rem; line-height:1.6; color:#d3b4b4;">
+                        Thank you for always being there for us. We miss you so much 😢. Please come soon and complete
+                        our family 🏡✨.
+                        Your presence will bring happiness 😍 and warmth back into our home. We love you so much ❤️.
+                    </p>
+                </div>
+            </div>
+
+
+        </section>
+
+
+
+
+
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>Made with <i class="fa-solid fa-heart"></i> across the miles</p>
+            <small>© <span id="year"></span> Across The Ocean</small>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript to create the 3D carousel
+        document.addEventListener('DOMContentLoaded', function () {
+            const carousel = document.getElementById('imageCarousel');
+            const images = [
+                '/assets/images/public/eng.jpeg',
+                '/assets/images/public/1.jpeg',
+                '/assets/images/public/raj.jpeg',
+                '/assets/images/public/2.jpeg',
+                '/assets/images/public/mr1.jpeg',
+                '/assets/images/public/raj2.jpeg',
+                '/assets/images/public/mr2.jpeg',
+                '/assets/images/public/raj8.jpeg'
+            ];
+
+            const totalImages = images.length;
+            const angle = 360 / totalImages;
+
+            // Create carousel items
+            images.forEach((image, index) => {
+                const item = document.createElement('div');
+                item.className = 'carousel-item';
+
+                // Calculate rotation for each image
+                const rotateY = angle * index;
+                const translateZ = 400; // Adjust this value to change the diameter of the carousel
+
+                item.style.transform = `rotateY(${rotateY}deg) translateZ(${translateZ}px)`;
+
+                const img = document.createElement('img');
+                img.src = image;
+                img.alt = `Memory ${index + 1}`;
+
+                item.appendChild(img);
+                carousel.appendChild(item);
+            });
+
+            // Your existing JavaScript code would follow here
+            // Make sure to include all the functionality from your original app.js
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const tiles = document.querySelectorAll("#home .tile img");
+            const messages = {
+                "My Everything": "Even though oceans keep us apart, my heart belongs only to you.",
+                "My Dream": "Every night I dream of the day we finally meet.",
+                "My Future": "One day this distance will be just a memory, and you’ll be in my arms.",
+                "Warm Light": "Your laugh is the light that guides me through hard days.",
+                "Shared Sky": "We may be far, but we still share the same sky and stars.",
+                "Little Moments": "Every chat, every tiny word from you, I hold close to my heart.",
+            };
+
+            let currentZoom = null;
+
+            tiles.forEach(img => {
+                const tile = img.closest(".tile");
+                const title = tile.querySelector("h4") ? tile.querySelector("h4").innerText.trim() : "";
+
+                img.addEventListener("click", () => {
+                    if (!currentZoom) {
+                        // Overlay
+                        const overlay = document.createElement("div");
+                        overlay.style.position = "fixed";
+                        overlay.style.top = 0;
+                        overlay.style.left = 0;
+                        overlay.style.width = "100%";
+                        overlay.style.height = "100%";
+                        overlay.style.background = "rgba(0,0,0,0.4)";
+                        overlay.style.backdropFilter = "blur(3px)";
+                        overlay.style.display = "flex";
+                        overlay.style.justifyContent = "center";
+                        overlay.style.alignItems = "center";
+                        overlay.style.zIndex = 50;
+
+                        // Container for image + text
+                        const container = document.createElement("div");
+                        container.style.position = "relative";
+                        container.style.display = "inline-block";
+                        container.style.maxWidth = "80%";
+                        container.style.maxHeight = "80%";
+                        container.style.cursor = "pointer";
+
+                        // Big image
+                        const bigImg = img.cloneNode();
+                        bigImg.style.width = "100%";
+                        bigImg.style.height = "auto";
+                        bigImg.style.borderRadius = "0.5rem";
+                        bigImg.style.display = "block";
+                        container.appendChild(bigImg);
+
+                        // Text overlay
+                        const textOverlay = document.createElement("div");
+                        textOverlay.innerText = messages[title] || "My heart beats for you, no matter the distance.";
+                        textOverlay.style.position = "absolute";
+                        textOverlay.style.bottom = "10px";
+                        textOverlay.style.left = "50%";
+                        textOverlay.style.transform = "translateX(-50%)";
+                        textOverlay.style.background = "rgba(0,0,0,0.6)";
+                        textOverlay.style.color = "#fff";
+                        textOverlay.style.padding = "5px 10px";
+                        textOverlay.style.borderRadius = "0.3rem";
+                        textOverlay.style.fontSize = "0.9rem";
+                        textOverlay.style.textAlign = "center";
+                        container.appendChild(textOverlay);
+
+                        overlay.appendChild(container);
+                        document.body.appendChild(overlay);
+                        currentZoom = overlay;
+
+                        // Click overlay to close
+                        overlay.addEventListener("click", () => {
+                            overlay.remove();
+                            currentZoom = null;
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const tiles = document.querySelectorAll("#family .tile img");
+
+
+            // Hide all long paragraphs initially
+            tiles.forEach(img => {
+                const tile = img.closest(".tile");
+                const longParagraph = tile.querySelector("figcaption p:nth-of-type(2)");
+                if (longParagraph) longParagraph.style.display = "none";
+            });
+
+
+            let currentZoom = null;
+
+
+            tiles.forEach(img => {
+                const tile = img.closest(".tile");
+                const title = tile.querySelector("h4") ? tile.querySelector("h4").innerText.trim() : "";
+                const longParagraph = tile.querySelector("figcaption p:nth-of-type(2)");
+                const shortText = tile.querySelector("figcaption p:nth-of-type(1)").innerText;
+
+
+                img.addEventListener("click", () => {
+                    if (!currentZoom) {
+                        // Overlay
+                        const overlay = document.createElement("div");
+                        overlay.style.position = "fixed";
+                        overlay.style.top = "0";
+                        overlay.style.left = "0";
+                        overlay.style.width = "100%";
+                        overlay.style.height = "100%";
+                        overlay.style.background = "rgba(0,0,0,0.85)";
+                        overlay.style.backdropFilter = "blur(5px)";
+                        overlay.style.display = "flex";
+                        overlay.style.flexDirection = "column";
+                        overlay.style.justifyContent = "center";
+                        overlay.style.alignItems = "center";
+                        overlay.style.zIndex = "9999";
+                        overlay.style.padding = "20px";
+                        overlay.style.overflowY = "auto";
+
+
+                        // Container for image + text
+                        const container = document.createElement("div");
+                        container.style.position = "relative";
+                        container.style.display = "flex";
+                        container.style.flexDirection = "column";
+                        container.style.maxWidth = "100%";
+                        container.style.maxHeight = "90%";
+                        container.style.cursor = "pointer";
+                        container.style.backgroundColor = "#fff";
+                        container.style.borderRadius = "12px";
+                        container.style.overflow = "hidden";
+                        container.style.boxShadow = "0 10px 30px rgba(0,0,0,0.3)";
+
+
+                        // Big image
+                        const bigImg = img.cloneNode();
+                        bigImg.style.width = "100%";
+                        bigImg.style.height = "auto";
+                        bigImg.style.maxHeight = "60vh";
+                        bigImg.style.objectFit = "contain";
+                        bigImg.style.display = "block";
+                        container.appendChild(bigImg);
+
+
+                        // Text container
+                        const textContainer = document.createElement("div");
+                        textContainer.style.padding = "15px";
+                        textContainer.style.background = "rgba(255,255,255,0.95)";
+                        textContainer.style.width = "100%";
+                        textContainer.style.maxHeight = "40%";
+                        textContainer.style.overflowY = "auto";
+
+                        // Title
+                        const titleElement = document.createElement("h3");
+                        titleElement.textContent = title;
+                        titleElement.style.marginBottom = "10px";
+                        titleElement.style.color = "#333";
+                        titleElement.style.fontSize = "1.2rem";
+                        textContainer.appendChild(titleElement);
+
+                        // Text content
+                        const textContent = document.createElement("div");
+                        textContent.style.color = "#555";
+                        textContent.style.lineHeight = "1.5";
+                        textContent.style.fontSize = "0.95rem";
+                        textContent.textContent = longParagraph ? longParagraph.innerText : shortText;
+                        textContainer.appendChild(textContent);
+
+                        container.appendChild(textContainer);
+
+
+                        // Close button
+                        const closeButton = document.createElement("button");
+                        closeButton.innerHTML = "&times;";
+                        closeButton.style.position = "absolute";
+                        closeButton.style.top = "10px";
+                        closeButton.style.right = "10px";
+                        closeButton.style.width = "40px";
+                        closeButton.style.height = "40px";
+                        closeButton.style.borderRadius = "50%";
+                        closeButton.style.background = "rgba(0,0,0,0.7)";
+                        closeButton.style.color = "white";
+                        closeButton.style.border = "none";
+                        closeButton.style.fontSize = "1.5rem";
+                        closeButton.style.cursor = "pointer";
+                        closeButton.style.display = "flex";
+                        closeButton.style.justifyContent = "center";
+                        closeButton.style.alignItems = "center";
+                        closeButton.style.zIndex = "10";
+                        closeButton.addEventListener("click", (e) => {
+                            e.stopPropagation();
+                            overlay.remove();
+                            currentZoom = null;
+                        });
+                        container.appendChild(closeButton);
+
+
+                        overlay.appendChild(container);
+                        document.body.appendChild(overlay);
+                        currentZoom = overlay;
+
+
+                        // Click overlay to close
+                        overlay.addEventListener("click", (e) => {
+                            if (e.target === overlay) {
+                                overlay.remove();
+                                currentZoom = null;
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+
+
+    <script src="assets/js/app.js"></script>
+</body>
+
+</html>
